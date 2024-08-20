@@ -29,6 +29,33 @@ def create_worker():
     
     return 'A new worker has been added', 201
 
+@app.route("/update/<int:id>", methods=["PATCH"])
+def update_worker(user_id):
+    worker = Worker.query.filter_by(id=user_id).first()
+    if not worker:
+        return jsonify({"message": "Worker not found"}), 404
+
+    data = request.json
+    worker.first_name = data.get("firstName", worker.first_name)
+    worker.last_name = data.get("lastName", worker.last_name)
+    worker.email = data.get("email", worker.email)
+    
+    db.session.commit()
+
+    return jsonify({"message": "Worker updated"}), 200
+
+@app.route("/delete/<int:id>", methods=["DELETE"])
+def delete_worker(user_id):
+    worker = Worker.query.filter_by(user_id)
+    
+    if not worker:
+        return jsonify({"message": "Worker not found"}), 404
+
+    db.session.delete(worker)
+    db.session.commit()
+
+    return jsonify({"message": "Worker deleted"}), 200
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
