@@ -3,6 +3,8 @@ import './App.css'
 import WorkerList from './WorkerList'
 import WorkerForm from './WorkerForm'
 
+
+// ------------------------------------------------------------------- DECLARING STATES FOR EMERGENT WINDOWS
 function App() {
   const [workers, setWorkers] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -12,6 +14,8 @@ function App() {
     fetchWorkers()
   }, [])
 
+// ------------------------------------------------------------------- FETCHING WORKERS
+  
   const fetchWorkers = async() => {
     const response = await fetch('http://127.0.0.1:5000/workers')
     const data = await response.json()
@@ -19,6 +23,7 @@ function App() {
     console.log(data.workers)
   };
 
+// ------------------------------------------------------------------- MODALS CONFIGURATION
   const closeModal = () => {
     setIsModalOpen(false)
     setCurrentWorker({})
@@ -40,6 +45,14 @@ function App() {
     closeModal()
     fetchWorkers()
   }
+
+/*
+
+On this section, I created a button that will open a modal window to add a new worker.
+In case the worker is already created it will open a modal window to edit the worker.
+Also it has a cross to close the modal window.
+
+*/
 
   return (
     <>

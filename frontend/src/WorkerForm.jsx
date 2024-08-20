@@ -1,10 +1,12 @@
 import {useState} from 'react'
 
+// ------------------------------------------------------------------- WORKER FORM (CREATE AND UPDATE)
 const WorkerForm = ({ existingWorker = {}, updateCallback}) => {
     const [firstName, setFirstName] = useState(existingWorker.firstName || '')
     const [lastName, setLastName] = useState(existingWorker.lastName || '')
     const [email, setEmail] = useState(existingWorker.email || '')
 
+// ------------------------------------------------------------------- VERIFY IF THE WORKER IS ALREADY CREATED
     const updating = Object.entries(existingWorker).length !== 0
 
     const onSubmit = async(e) => {
@@ -15,9 +17,9 @@ const WorkerForm = ({ existingWorker = {}, updateCallback}) => {
             lastName, 
             email
         }
-        const url = 'http://127.0.0.1:5000/' + (updating ? `update/${existingWorker.id}` : 'create')
+        const url = 'http://127.0.0.1:5000/' + (updating ? `update/${existingWorker.id}` : 'create') // Dynamic URL
         const options = {
-            method: updating ? 'PATCH' : 'POST',
+            method: updating ? 'PATCH' : 'POST', // Dynamic method
             headers: {
                 "Content-Type": "application/json"
             },
@@ -32,7 +34,7 @@ const WorkerForm = ({ existingWorker = {}, updateCallback}) => {
         }
     }
 
-
+// ------------------------------------------------------------------- SUBMITS FORM WITH ALL THE INFORMATION
     return (
         <form onSubmit={onSubmit}>
             <div>
@@ -59,8 +61,8 @@ const WorkerForm = ({ existingWorker = {}, updateCallback}) => {
                 onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
-            <button type='submit'>{updating ? "Update Contact" : "Create Contact"}</button>
-        </form>
+            <button type='submit'>{updating ? "Update Contact" : "Create Contact"}</button> 
+        </form> // Dynamic button
     );
 };
 

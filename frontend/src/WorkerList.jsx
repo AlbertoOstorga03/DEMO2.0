@@ -1,12 +1,14 @@
 import React from "react"
 
 const WorkerList = ({workers, updateWorker, updateCallback}) => {
+
+// ------------------------------------------------------------------- DELETE WORKER
     const onDelete = async (id) => {
         try {
             const options = {
                 method: 'DELETE'
             }
-            const response = await fetch(`http://127.0.0.1:5000/delete/${id}`, options)
+            const response = await fetch(`http://127.0.0.1:5000/delete/${id}`, options) // Delete URL
             if (response.status === 200) {
                 updateCallback()
             } else {
@@ -16,7 +18,7 @@ const WorkerList = ({workers, updateWorker, updateCallback}) => {
             alert(error)
         }
     }
-
+// ------------------------------------------------------------------- DISPLAY WORKERS AND ATION BUTTONS
     return <div>
         <h2>Workers CRUD DEMO 2.0</h2>
         <table>
