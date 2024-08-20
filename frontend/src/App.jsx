@@ -49,7 +49,7 @@ function App() {
 /*
 
 On this section, I created a button that will open a modal window to add a new worker.
-In case the worker is already created it will open a modal window to edit the worker.
+In case the worker is already created it will open a modal window to edit the worker information.
 Also it has a cross to close the modal window.
 
 */
