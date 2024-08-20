@@ -2,12 +2,14 @@ from flask import Flask, request, jsonify
 from config import app,db
 from models import Worker
 
+# ------------------------------------------------------------------- READ THE EXISTENT DATA IN THE DATABASE
 @app.route('/workers', methods=['GET'])
 def get_workers():
     workers = Worker.query.all()
     json_workers = list(map(lambda x: x.to_json(), workers))
     return jsonify({"workers": json_workers}), 200
 
+# ------------------------------------------------------------------- CREATE DATA IN THE DATABASE
 @app.route('/create', methods=['POST'])
 def create_worker():
     first_name = request.json.get("firstName")
@@ -24,12 +26,13 @@ def create_worker():
     try:
         db.session.add(new_worker)
         db.session.commit()
-    except:
+    except Exception as e:
         return jsonify({"message": str(e)}), 400	
     
     return 'A new worker has been added', 201
 
-@app.route("/update/<int:id>", methods=["PATCH"])
+# ------------------------------------------------------------------- UPDATE EXISTENT DATA IN THE DATABASE
+@app.route("/update/<int:user_id>", methods=["PATCH"])
 def update_worker(user_id):
     worker = Worker.query.filter_by(id=user_id).first()
     if not worker:
@@ -44,9 +47,10 @@ def update_worker(user_id):
 
     return jsonify({"message": "Worker updated"}), 200
 
-@app.route("/delete/<int:id>", methods=["DELETE"])
+# ------------------------------------------------------------------- DELETE DATA IN THE DATABASE
+@app.route("/delete/<int:user_id>", methods=["DELETE"])
 def delete_worker(user_id):
-    worker = Worker.query.filter_by(user_id)
+    worker = Worker.query.filter_by(id=user_id).first()
     
     if not worker:
         return jsonify({"message": "Worker not found"}), 404
